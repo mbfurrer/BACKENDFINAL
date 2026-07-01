@@ -1,56 +1,43 @@
 import mongoose from "mongoose";
+import {USER_COLLECTION_NAME} from './user.model.js'
 
-const contactSchema = new mongoose.Schema(
+const ContactSchema = new mongoose.Schema(
   {
-    contact_name: {
-      type: String,
+    owner_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: USER_COLLECTION_NAME,
       required: true,
+    },
+
+    contact_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: USER_COLLECTION_NAME,
+      required: true,
+    },
+
+    nickname: {
+      type: String,
       trim: true,
+      default: null,
     },
 
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true
+    favorite: {
+      type: Boolean,
+      default: false,
     },
 
-    password: {
-      type: String,
-      required: true
-    },
-
-    profile_picture: {
-      url: {
-        type: String,
-        default: null,
-      },
-    },
-
-    about: {
-      type: String,
-      default: "Hey there! I am using WhatsApp.",
-    },
-
-    phone: {
-      type: String,
-      required: true,
-    },
-    
-    last_seen: {
-      type: Date,
-      default: Date.now,
-    },
-
-    is_online: {
+    blocked: {
       type: Boolean,
       default: false,
     },
   },
-    {timestamps: true}
-)
+  {
+    timestamps: true,
+  }
+);
 
-const CONTACT_COLLECTION_NAME = "Contact"
-const Contact = mongoose.model(CONTACT_COLLECTION_NAME , contactSchema)
+
+export const CONTACT_COLLECTION_NAME = 'Contact'
+const Contact = mongoose.model(CONTACT_COLLECTION_NAME, ContactSchema)
 
 export default Contact
