@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -51,7 +52,5 @@ const userSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-export const USER_COLLECTION_NAME = "User"
 const User = mongoose.model(USER_COLLECTION_NAME , userSchema)
-
 export default User

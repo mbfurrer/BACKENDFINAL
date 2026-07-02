@@ -1,0 +1,4 @@
+export const USER_COLLECTION_NAME = 'User'
+export const CONVERSATION_COLLECTION_NAME = 'Conversation'
+export const MESSAGE_COLLECTION_NAME = 'Message'
+export const CONVERSATION_MEMBER_COLLECTION_NAME = 'ConversationMember'

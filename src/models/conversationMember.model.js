@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import {CONVERSATION_COLLECTION_NAME} from './conversation.model.js'
-import {USER_COLLECTION_NAME} from './user.model.js'
+import { CONVERSATION_COLLECTION_NAME, USER_COLLECTION_NAME } from "./constants/collections.constants.js";
 
 const conversationMemberSchema = new mongoose.Schema({
 
@@ -36,7 +35,5 @@ const conversationMemberSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-export const CONVERSATION_MEMBER_COLLECTION_NAME = 'ConversationMember'
 const ConversationMember = mongoose.model(CONVERSATION_MEMBER_COLLECTION_NAME, conversationMemberSchema)
-
 export default ConversationMember

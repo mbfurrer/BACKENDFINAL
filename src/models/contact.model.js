@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import {USER_COLLECTION_NAME} from './user.model.js'
+import { USER_COLLECTION_NAME } from "./constants/collections.constants.js";
+
 
 const ContactSchema = new mongoose.Schema(
   {
@@ -30,8 +31,5 @@ const ContactSchema = new mongoose.Schema(
   }
 );
 
-
-export const CONTACT_COLLECTION_NAME = 'Contact'
 const Contact = mongoose.model(CONTACT_COLLECTION_NAME, ContactSchema)
-
 export default Contact

@@ -5,5 +5,3 @@ import connectMongoDB from "./config/mongodb.config.js";
 console.log(ENVIRONMENT)
 
 connectMongoDB()
-
- 
