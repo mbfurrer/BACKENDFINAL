@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import {USER_COLLECTION_NAME} from './user.model.js'
-import {MESSAGE_COLLECTION_NAME} from './message.model.js'
+import { USER_COLLECTION_NAME } from './user.model.js'
+import { MESSAGE_COLLECTION_NAME } from './message.model.js'
 
 
 const conversationSchema = new mongoose.Schema(
@@ -13,7 +13,7 @@ const conversationSchema = new mongoose.Schema(
 
     name: {
       type: String,
-      require: true
+      required: true
     },
 
     picture: {
@@ -43,10 +43,16 @@ const conversationSchema = new mongoose.Schema(
     is_deleted: {
       type: Boolean,
       default: false,
-    }
+    },
 
-  }, 
-  {timestamps: true}
+    members: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: USER_COLLECTION_NAME,
+      required: true,
+    }],
+
+  },
+  { timestamps: true }
 )
 
 export const CONVERSATION_COLLECTION_NAME = 'Conversation'

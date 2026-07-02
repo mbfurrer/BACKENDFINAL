@@ -35,3 +35,8 @@ const conversationMemberSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
+
+export const CONVERSATION_MEMBER_COLLECTION_NAME = 'ConversationMember'
+const ConversationMember = mongoose.model(CONVERSATION_MEMBER_COLLECTION_NAME, conversationMemberSchema)
+
+export default ConversationMember

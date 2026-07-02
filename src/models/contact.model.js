@@ -15,12 +15,6 @@ const ContactSchema = new mongoose.Schema(
       required: true,
     },
 
-    nickname: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-
     favorite: {
       type: Boolean,
       default: false,
