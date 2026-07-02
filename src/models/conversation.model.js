@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MESSAGE_COLLECTION_NAME, USER_COLLECTION_NAME } from "./constants/collections.constants.js";
+import { MESSAGE_COLLECTION_NAME, USER_COLLECTION_NAME, CONVERSATION_COLLECTION_NAME } from "../constants/collections.constants.js";
 
 
 

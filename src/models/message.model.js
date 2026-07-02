@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { CONVERSATION_COLLECTION_NAME, USER_COLLECTION_NAME } from "./constants/collections.constants.js";
+import { CONVERSATION_COLLECTION_NAME, USER_COLLECTION_NAME, MESSAGE_COLLECTION_NAME } from "../constants/collections.constants.js";
 
 const messageSchema = new mongoose.Schema({
 

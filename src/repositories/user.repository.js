@@ -31,21 +31,21 @@ class UserRepository {
     return await User.findByIdAndUpdate(
       user_id, 
       {last_seen: new Date()},
-      {new: true}
+      {returnDocument: 'after'}
     )
   }
   async setOnline(userId){
     return await User.findByIdAndUpdate(
       user_id,
       {online: true},
-      {new: true} 
+      {returnDocument: 'after'} 
     )
   }
   async setOffline(userId){
     return await User.findByIdAndUpdate(
       user_id,
       {online: false},
-      {new: true} 
+      {returnDocument: 'after'} 
     )
   }
 }

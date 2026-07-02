@@ -46,7 +46,7 @@ class ContactRepository {
     },
     data,
     {
-      new: true,
+      returnDocument: 'after',
     }
   );
 }
@@ -59,7 +59,7 @@ class ContactRepository {
         contact_id: contactId
       },
       {favorite}, 
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -71,7 +71,7 @@ class ContactRepository {
         contact_id: contactId
       },
       { blocked: true },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -82,7 +82,7 @@ class ContactRepository {
         contact_id: contactId
       },
       { blocked: false },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 }

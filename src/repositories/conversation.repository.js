@@ -18,7 +18,7 @@ class ConversationRepository {
     return await Conversation.findOneAndUpdate(
       conversationId,
       data,
-      { new: true }
+      { returnDocument: 'after' }
     );
   }
 
@@ -26,7 +26,7 @@ class ConversationRepository {
     return await Conversation.findByIdAndUpdate(
       conversationId,
       { is_deleted: true },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -34,7 +34,7 @@ class ConversationRepository {
     return await Conversation.findByIdAndUpdate(
       conversationId,
       { last_message: messageId },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 

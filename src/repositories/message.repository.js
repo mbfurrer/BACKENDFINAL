@@ -32,7 +32,7 @@ class MessageRepository {
     return await Message.findByIdAndUpdate(
       messageId,
       data,
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -44,7 +44,7 @@ class MessageRepository {
     return await Message.findByIdAndUpdate(
       messageId,
       { is_deleted: true },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 }

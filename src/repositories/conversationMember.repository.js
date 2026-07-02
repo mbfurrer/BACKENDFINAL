@@ -14,7 +14,7 @@ class ConversationMemberRepository {
         left_at: null
       },
       {
-        new: true,
+        returnDocument: 'after',
         upsert: true
       }
     )
@@ -28,7 +28,7 @@ class ConversationMemberRepository {
         left_at: null
       },
       { left_at: Date.now() },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -45,7 +45,7 @@ class ConversationMemberRepository {
         user_id: userId,
         left_at: null
       },
-      { new: true }
+      { returnDocument: 'after' }
     ).populate('conversation_id')
   }
 
@@ -66,7 +66,7 @@ class ConversationMemberRepository {
         left_at: null
       },
       { role: role },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -78,7 +78,7 @@ class ConversationMemberRepository {
         left_at: null
       },
       { left_at: Date.now() },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 }

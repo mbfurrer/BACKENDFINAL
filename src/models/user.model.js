@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { USER_COLLECTION_NAME } from "../constants/collections.constants.js";
+
 
 
 const userSchema = new mongoose.Schema(

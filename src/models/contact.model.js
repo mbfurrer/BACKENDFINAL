@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { USER_COLLECTION_NAME } from "./constants/collections.constants.js";
+import { USER_COLLECTION_NAME, CONTACT_COLLECTION_NAME } from "../constants/collections.constants.js";
 
 
 const ContactSchema = new mongoose.Schema(
