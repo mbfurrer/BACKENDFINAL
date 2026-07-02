@@ -1,7 +1,14 @@
 import ENVIRONMENT from "./config/environment.config.js";
 import connectMongoDB from "./config/mongodb.config.js";
-
+import express from 'express';
 
 console.log(ENVIRONMENT)
 
 connectMongoDB()
+const app = express()
+app.listen(
+  ENVIRONMENT.PORT,
+  () => {
+    console.log(`App de express se ejecuta correctamente en el puerto ${ENVIRONMENT.PORT}`)
+  }
+)

@@ -3,8 +3,8 @@ import User from "../models/user.model.js"
 
 class UserRepository {
 
-  async getById(user_id) {
-    return await User.findById(user_id)
+  async getById(userId) {
+    return await User.findById(userId)
   }
 
   async getByEmail(email) {
@@ -15,35 +15,38 @@ class UserRepository {
     return await User.findOne({phone})
   }
 
-    async updateById(user_id, update_data) {
-    await User.findByIdAndUpdate(user_id, update_data)
-  }
-
-  async create(contuser_dataactData) {
-    return await User.create(user_data)
-  }
-
-  async deleteById(user_id) {
-    return await User.findByIdAndDelete(user_id)
-  }
-
-  async updateLastSeen(user_id) {
+    async updateById(userId, updateData) {
     return await User.findByIdAndUpdate(
-      user_id, 
+      userId, 
+      updateData, 
+      {returnDocument: 'after'})
+  }
+
+  async create(userData) {
+    return await User.create(userData)
+  }
+
+  async deleteById(userId) {
+    return await User.findByIdAndDelete(userId)
+  }
+
+  async updateLastSeen(userId) {
+    return await User.findByIdAndUpdate(
+      userId, 
       {last_seen: new Date()},
       {returnDocument: 'after'}
     )
   }
   async setOnline(userId){
     return await User.findByIdAndUpdate(
-      user_id,
+      userId,
       {online: true},
       {returnDocument: 'after'} 
     )
   }
   async setOffline(userId){
     return await User.findByIdAndUpdate(
-      user_id,
+      userId,
       {online: false},
       {returnDocument: 'after'} 
     )

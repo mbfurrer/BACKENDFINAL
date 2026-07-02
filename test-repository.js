@@ -77,6 +77,79 @@ async function main() {
   const buscada = await conversationRepository.findById(conversation._id)
   console.log('10. Conversacion borrada, findById devuelve:', buscada) // esperado: null
 
+
+  // --- USUARIOS ---
+  // OJO: ajusta estos campos a los required de tu user.model.js
+  // (si tu schema exige password u otros campos, agregalos aca)
+  const ana = await userRepository.create({
+    name: 'Ana Test',
+    email: 'ana@test.com',
+    phone: '+5491111111111',
+    password: 'hash-de-prueba'
+  })
+  const bruno = await userRepository.create({
+    name: 'Bruno Test',
+    email: 'bruno@test.com',
+    phone: '+5492222222222',
+    password: 'hash-de-prueba'
+  })
+  console.log('1. Usuarios creados:', ana.name, '/', bruno.name)
+
+  // 2. Busquedas por cada indice
+  const porEmail = await userRepository.getByEmail('ana@test.com')
+  console.log('2a. getByEmail:', porEmail.name) // esperado: Ana Test
+  const porPhone = await userRepository.getByPhone('+5492222222222')
+  console.log('2b. getByPhone:', porPhone.name) // esperado: Bruno Test
+  const porId = await userRepository.getById(ana._id)
+  console.log('2c. getById:', porId.name) // esperado: Ana Test
+
+  // 3. updateById devuelve el documento actualizado (bug del return corregido)
+  const actualizado = await userRepository.updateById(ana._id, { name: 'Ana Editada' })
+  console.log('3. updateById devuelve:', actualizado.name) // esperado: Ana Editada
+
+  // 4. Estado online/offline y last_seen
+  const online = await userRepository.setOnline(bruno._id)
+  console.log('4a. setOnline:', online.online) // esperado: true
+  const offline = await userRepository.setOffline(bruno._id)
+  console.log('4b. setOffline:', offline.online) // esperado: false
+  const visto = await userRepository.updateLastSeen(bruno._id)
+  console.log('4c. updateLastSeen:', visto.last_seen) // esperado: fecha de ahora
+
+  // --- CONTACTOS ---
+  // 5. Ana agrega a Bruno
+  await contactRepository.addContact(ana._id, bruno._id)
+  console.log('5. Contacto agregado')
+
+  // 6. findByOwner con populate: el contacto trae los datos del usuario
+  const agenda = await contactRepository.findByOwner(ana._id)
+  console.log('6. Agenda de Ana:', agenda.length, '- contacto:', agenda[0].contact_id.name)
+  // esperado: 1 - contacto: Bruno Test
+
+  // 7. findContact puntual
+  const contacto = await contactRepository.findContact(ana._id, bruno._id)
+  console.log('7. findContact:', contacto.contact_id.name) // esperado: Bruno Test
+
+  // 8. La relacion NO es simetrica: Bruno no tiene a Ana
+  const agendaBruno = await contactRepository.findByOwner(bruno._id)
+  console.log('8. Agenda de Bruno:', agendaBruno.length) // esperado: 0
+
+  // 9. update generico (ajusta el campo a los que tenga tu contact.model.js,
+  // por ejemplo alias, favorite o blocked)
+  const editado = await contactRepository.update(ana._id, bruno._id, { favorite: true })
+  console.log('9. update:', editado.favorite) // esperado: true (si el schema tiene favorite)
+
+  // 10. removeContact y verificacion
+  await contactRepository.removeContact(ana._id, bruno._id)
+  const yaNoEsta = await contactRepository.findContact(ana._id, bruno._id)
+  console.log('10. Tras remover, findContact:', yaNoEsta) // esperado: null
+
+  // Limpieza: borrar los usuarios de prueba
+  await userRepository.deleteById(ana._id)
+  await userRepository.deleteById(bruno._id)
+  console.log('\nUsuarios de prueba eliminados. Listo.')
+
+
+
   await mongoose.connection.close()
   console.log('\nListo. Conexion cerrada.')
 }

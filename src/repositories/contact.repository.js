@@ -12,7 +12,7 @@ class ContactRepository {
   }
 
   async removeContact(ownerId, contactId) {
-    return await Contact.findByIdAndDelete(
+    return await Contact.findOneAndDelete(
       {
         owner_id: ownerId,
         contact_id: contactId
