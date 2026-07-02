@@ -12,3 +12,15 @@ app.listen(
     console.log(`App de express se ejecuta correctamente en el puerto ${ENVIRONMENT.PORT}`)
   }
 )
+
+app.use(express.json());
+
+
+app.get(
+  '/api/test',
+  (req, res) => {
+    console.log(`Llego una consulta de prueba`)
+    res.send('<h1>Respuesta de prueba</h1>')
+  }
+)
+
