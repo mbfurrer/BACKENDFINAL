@@ -43,8 +43,9 @@ class AuthController {
           to: email,
           from: ENVIRONMENT.GMAIL_USERNAME,
           subject: "Verifica tu email",
-          html: `<h1>Bienvenido a SLACK</h1>
+          html: `<h1>Bienvenido a WhatsApp</h1>
                   <a href='${ENVIRONMENT.URL_BACKEND}/api/auth/verify-email?verification_token=${verification_token}'>Click aqui</a> para verificar tu cuenta`
+                  //HACER MAS LINDO
         }
       )
 
