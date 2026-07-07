@@ -1,6 +1,7 @@
 import ENVIRONMENT from "./config/environment.config.js";
 import connectMongoDB from "./config/mongodb.config.js";
 import express from 'express';
+import authRouter from './routes/auth.router.js'
 
 console.log(ENVIRONMENT)
 
@@ -25,3 +26,4 @@ app.get(
   }
 )
 
+app.use('/api/auth', authRouter);

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import mailer_transport from "../config/mailer.config.js";
-import ENVIRONMENT from "../config/environment.js";
+import ENVIRONMENT from "../config/environment.config.js";
 import ServerError from '../helpers/serverError.helper.js'
 import userRepository from "../repositories/user.repository.js"
 
@@ -10,9 +10,13 @@ import userRepository from "../repositories/user.repository.js"
 class AuthController {
   async register(req, res) {
     try {
-      const { nombre, email, password } = req.body;
-      if (!nombre || nombre.length <= 2) {
+      const { name, phone, email, password } = req.body;
+      if (!name || name.length <= 2) {
         throw new ServerError("Nombre debe ser mayor a 2 caracteres", 400)
+      }
+
+      if (!phone) {
+        throw new ServerError("Indique un celular", 400)
       }
 
       if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
@@ -29,7 +33,7 @@ class AuthController {
       }
 
       const hashed_password = await bcrypt.hash(password, 12);
-      const new_user = userRepository.create(nombre, email, hashed_password);
+      const new_user = await userRepository.create({name, phone, email, password: hashed_password});
 
       const verification_token = jwt.sign(
         {
@@ -56,7 +60,8 @@ class AuthController {
         data: {
           user: {
             id: new_user.email,
-            nombre: new_user.nombre,
+            phone: new_user.phone,          
+            name: new_user.name,
             email: new_user.email
           }
         }
@@ -104,11 +109,11 @@ class AuthController {
         throw new ServerError('Usuario no encontrado', 400);
       }
 
-      if (user.email_verificado) {
+      if (user.verifiedEmail) {
         throw new ServerError('Este email ya ha sido verificado', 400);
       }
 
-      await userRepository.updateById(user._id, { email_verificado: true });
+      await userRepository.updateById(user._id, { verifiedEmail: true });
 
       return res.status(200).json({
         ok: true,
@@ -166,7 +171,7 @@ class AuthController {
         throw new ServerError("Usuario no registrado", 404)
       }
 
-      if (!user_found.email_verificado) {
+      if (!user_found.verifiedEmail) {
         throw new ServerError("Usuario con verificacion de mail pendiente", 401)
       }
 
@@ -177,10 +182,10 @@ class AuthController {
       }
 
       const profile_info = {
-        nombre: user_found.nombre,
+        name: user_found.name,
+        phone: user_found.phone,
         email: user_found.email,
         id: user_found._id,
-        fecha_creacion: user_found.fecha_creacion,
       }
 
       const access_token = jwt.sign(
