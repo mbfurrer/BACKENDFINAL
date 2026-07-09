@@ -4,7 +4,9 @@ import express from 'express';
 import authRouter from './routes/auth.router.js'
 import messageRouter from "./routes/message.router.js";
 import conversationRouter from "./routes/conversation.router.js";
+import cors from "cors";
 
+app.use(cors());
 console.log(ENVIRONMENT)
 
 connectMongoDB()

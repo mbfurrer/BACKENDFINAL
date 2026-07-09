@@ -11,8 +11,8 @@ class AuthController {
   async register(req, res) {
     try {
       const { name, phone, email, password } = req.body;
-      if (!name || name.length <= 2) {
-        throw new ServerError("Nombre debe ser mayor a 2 caracteres", 400)
+      if (!name || name.length <= 4) {
+        throw new ServerError("Nombre debe ser mayor a 4 caracteres", 400)
       }
 
       if (!phone) {
