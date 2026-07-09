@@ -5,15 +5,21 @@ import authController from '../controllers/auth.controller.js'
 const authRouter = express.Router()
 
 authRouter.post(
-    '/register', 
+    '/register',
     authController.register)
 
 authRouter.get(
-    '/verify-email', 
+    '/verify-email',
     authController.verifyEmail)
 
 authRouter.post(
-    '/login', 
+    '/login',
     authController.login)
+
+/* router.post(
+    "/logout",
+    authMiddleware,
+    authController.logout
+); */
 
 export default authRouter

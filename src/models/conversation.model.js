@@ -13,7 +13,8 @@ const conversationSchema = new mongoose.Schema(
 
     name: {
       type: String,
-      required: true
+      default: null,
+      required: false,
     },
 
     picture: {
@@ -28,7 +29,7 @@ const conversationSchema = new mongoose.Schema(
       default: "",
     },
 
-    fk_created_by: {
+    created_by: {
       type: mongoose.Schema.Types.ObjectId,
       ref: USER_COLLECTION_NAME,
       required: true,

@@ -235,6 +235,88 @@ class AuthController {
       }
     }
   }
+
+  async logout(req, res) {
+    try {
+      const { email, password } = req.body
+
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        throw new ServerError("Email inválido", 400)
+      }
+
+      if (!password || password.length < 6) {
+        throw new ServerError("Contraseña invalida", 400)
+      }
+
+      const user_found = await userRepository.getByEmail(email);
+      if (!user_found) {
+        throw new ServerError("Usuario no registrado", 404)
+      }
+
+      if (!user_found.verifiedEmail) {
+        throw new ServerError("Usuario con verificacion de mail pendiente", 401)
+      }
+
+      const is_same_pass = await bcrypt.compare(password, user_found.password)
+
+      if (!is_same_pass) {
+        throw new ServerError('Credenciales invalidas', 401);
+      }
+
+      const profile_info = {
+        name: user_found.name,
+        phone: user_found.phone,
+        email: user_found.email,
+        id: user_found._id,
+      }
+
+      const access_token = jwt.sign(
+        profile_info,
+        ENVIRONMENT.JWT_SECRET
+      )
+
+      return res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Usuario autentificado exitosamente ",
+        data: {
+          access_token
+        }
+      }
+      )
+    }
+
+    catch (error) {
+      if (error instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json(
+          {
+            ok: false,
+            message: "Token invalido",
+            status: 401
+          }
+        )
+      }
+      else if (error instanceof ServerError) {
+        return res.status(error.status).json(
+          {
+            ok: false,
+            message: error.message,
+            status: error.status
+          }
+        )
+      }
+      else {
+        console.log('Error Critico', error);
+        return res.status(500).json(
+          {
+            ok: false,
+            message: "Error interno del servidor",
+            status: 500
+          }
+        )
+      }
+    }
+  }
 }
 
 

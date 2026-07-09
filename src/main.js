@@ -2,6 +2,8 @@ import ENVIRONMENT from "./config/environment.config.js";
 import connectMongoDB from "./config/mongodb.config.js";
 import express from 'express';
 import authRouter from './routes/auth.router.js'
+import messageRouter from "./routes/message.router.js";
+import conversationRouter from "./routes/conversation.router.js";
 
 console.log(ENVIRONMENT)
 
@@ -27,3 +29,6 @@ app.get(
 )
 
 app.use('/api/auth', authRouter);
+app.use('/api/message', messageRouter);
+app.use('/api/conversation', conversationRouter);
+
